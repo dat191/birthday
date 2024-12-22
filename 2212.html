@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        p {
+            font-size: 1.5em;
+            margin: 20px 0;
+        }
+
+        .photo-gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .photo-gallery img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .music {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #ff4b47;
+        }
+
+        .fireworks {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        #letter-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        #letter-modal p {
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+
+        #close-modal {
+            background: #ff6f61;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #close-modal:hover {
+            background: #ff4b47;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Happy Birthday My Love ❤️</h1>
+        <p>Chúc mừng sinh nhật người đặc biệt nhất trong cuộc đời anh mong rằng tất cả những ước mơ của em đều trở thành hiện thực. ❤️</p>
+
+        <div class="photo-gallery">
+            <img src="image/z6155074222029_fee8a3c0a4d147006f051def0883f442.jpg" alt="Photo 1">
+            <img src="image/z6155074228918_b9f6daa77b6a1575185aa183f6711cbd.jpg" alt="Photo 2">
+            <img src="image/z6155074233422_272605ed27de0f0360bfac15c680ef65.jpg" alt="Photo 3">
+        </div>
+
+        <div class="music">
+            <button onclick="playMusic()">Play Music 🎶</button>
+            <audio id="birthday-song" src="D:\Download\OpenDown.net_YouTube_Mashup-2023-Chuc-Mung-Sinh-Nhat-Vinz-Rem_Media_xDb3dIYHivY_006_128k.m4a"></audio>
+        </div>
+
+        <div class="letter">
+            <button onclick="openLetter()">Open My Birthday Letter 💌</button>
+        </div>
+    </div>
+
+    <div id="overlay" onclick="closeLetter()"></div>
+
+    <div id="letter-modal">
+        <h2>My Birthday Letter to You</h2>
+        <p>Chi thúi yêu dấu</p>
+        <p>Chúc mừng sinh nhật em . Chúc em luôn xinh đẹp, giỏi giang và có nhiều A+ cho con em gét nó hửi khói ,thứ lỗi anh chúc hơi muộn hicc anh ko cố ý đâu , mong rằng ngày hôm nay và tất cả những ngày sau đều tràn ngập hạnh phúc, yêu chi thúi của anh ❤️</p>
+        <button id="close-modal" onclick="closeLetter()">Close</button>
+    </div>
+
+    <canvas class="fireworks"></canvas>
+
+    <script>
+        const song = document.getElementById('birthday-song');
+
+        function playMusic() {
+            song.play();
+        }
+
+        function openLetter() {
+            document.getElementById('letter-modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeLetter() {
+            document.getElementById('letter-modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Fireworks Effect
+        const canvas = document.querySelector('.fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = Math.random() * 4 + 1;
+                this.speedX = Math.random() * 6 - 3;
+                this.speedY = Math.random() * 6 - 3;
+                this.opacity = 1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.01;
+            }
+        }
+
+        function createParticles(x, y) {
+            const colors = [
+                '255, 99, 132', // Red
+                '54, 162, 235', // Blue
+                '255, 206, 86', // Yellow
+                '75, 192, 192', // Green
+                '153, 102, 255' // Purple
+            ];
+
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle(x, y, colors[Math.floor(Math.random() * colors.length)]));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, index) => {
+                if (particle.opacity <= 0) {
+                    particles.splice(index, 1);
+                } else {
+                    particle.update();
+                    particle.draw();
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('click', (e) => {
+            createParticles(e.clientX, e.clientY);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
